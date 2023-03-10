@@ -28,17 +28,16 @@ let createNewUser = async (data) => {
 };
 
 let getAllUser = () => {
-    return new Promise(async (resolve, reject)=>{
-        try {
-            let users = db.User.findAll({
-                raw : true
-        });
-            resolve(users)
-        } catch (error) {
-            console.log(error)
-        }
-    })
-
+  return new Promise(async (resolve, reject) => {
+    try {
+      let users = db.User.findAll({
+        raw: true,
+      });
+      resolve(users);
+    } catch (error) {
+      console.log(error);
+    }
+  });
 };
 let hashUserPassword = (password) => {
   return new Promise(async (resolve, reject) => {
@@ -50,8 +49,49 @@ let hashUserPassword = (password) => {
     }
   });
 };
+let getUserInfoById = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({ where: { id: userId }, raw: true });
+      if (user) {
+        resolve(user);
+      } else {
+        resolve({});
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+let updateUserData = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.findOne({
+        where: {
+          id: data.id,
+        },
+      });
+      if (user) {
+        user.firstName = data.firstName;
+        user.lastName = data.lastName;
+        user.address = data.address;
 
+        await user.save();
+        let alluser = db.User.findAll({
+          raw: true,
+        });
+        resolve(alluser);
+      } else {
+        resolve();
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 module.exports = {
   createNewUser: createNewUser,
-  getAllUser : getAllUser,
+  getAllUser: getAllUser,
+  getUserInfoById: getUserInfoById,
+  updateUserData: updateUserData,
 };

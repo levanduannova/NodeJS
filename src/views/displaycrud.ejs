@@ -27,6 +27,7 @@
                 <th scope="col">Last</th>
                 <th scope="col">Address</th>
                 <th scope="col">Phone</th>
+                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -47,10 +48,13 @@
                     <td>
                         <%= dataTable[i].phoneNumber %>
                     </td>
+                    <td>
+                        <a href="" type="button" class="btn btn-danger btn-delete">Delete</a>
+                        <a href="./edit-crud?id=<%= dataTable[i].id %>" type="button" class="btn btn-warning btn-edit">Edit</a>
+                    </td>
                 </tr>
                 <% } %>
         </tbody>
-
     </table>
 </body>
 
