@@ -3,57 +3,63 @@ import CRUDService from "../services/CRUDService";
 let getHomePage = async (req, res) => {
   try {
     let data = await db.User.findAll();
-    return res.render("homepage.ejs",{
-        data: JSON.stringify(data)
+    return res.render("homepage.ejs", {
+      data: JSON.stringify(data),
     });
-  } catch(e) {
-    console.log(e)
+  } catch (e) {
+    console.log(e);
   }
 };
 
 let getAboutPage = (req, res) => {
   return res.render("test/about.ejs");
 };
-let getCRUD = (req,res)=>{
+let getCRUD = (req, res) => {
   return res.render("./crud.ejs");
-}
+};
 // // object: {
 // //     key: '',
 // //     value: ''
 // // }
-let postCRUD = async(req,res)=>{
-  let mes = await CRUDService.createNewUser(req.body)
-  console.log(mes)
-  return res.send("Post crud form sv")
-}
-let displayGetCRUD = async(req,res)=>{
-  let data = await CRUDService.getAllUser(req.body)
-  console.log("-------------------")
-  console.log(data)
-  console.log("-------------------")
-  return res.render("./displaycrud.ejs",{
-    dataTable : data
+let postCRUD = async (req, res) => {
+  let mes = await CRUDService.createNewUser(req.body);
+  console.log(mes);
+  return res.send("Post crud form sv");
+};
+let displayGetCRUD = async (req, res) => {
+  let data = await CRUDService.getAllUser(req.body);
+  return res.render("./displaycrud.ejs", {
+    dataTable: data,
   });
-}
-let getEditCRUD = async(req,res)=>{
-  let userId = req.query.id
-  if(userId){
-    let userData =await CRUDService.getUserInfoById(userId)
-    return res.render("editcrud",{
-      user: userData
-    })
+};
+let getEditCRUD = async (req, res) => {
+  let userId = req.query.id;
+  if (userId) {
+    let userData = await CRUDService.getUserInfoById(userId);
+    return res.render("editcrud", {
+      user: userData,
+    });
+  } else {
+    return res.send("NOT FOUND");
   }
-  else{
-    return res.send("NOT FOUND")
-  }
-}
-let putCRUD =  async(req,res)=>{
-  let data = req.body
-  let alluser = await CRUDService.updateUserData(data)
-  return res.render("./displaycrud.ejs",{
-    dataTable : alluser
+};
+let putCRUD = async (req, res) => {
+  let data = req.body;
+  let alluser = await CRUDService.updateUserData(data);
+  return res.render("./displaycrud.ejs", {
+    dataTable: alluser,
   });
-}
+};
+let deleteCRUD = async (req, res) => {
+  let idUser = req.query.id;
+  if (idUser) {
+    await CRUDService.deleteUserData(idUser);
+    return res.redirect('./get-crud');;
+    
+  } else {
+    return res.send("Faill");
+  }
+};
 module.exports = {
   getHomePage: getHomePage,
   getAboutPage: getAboutPage,
@@ -62,4 +68,5 @@ module.exports = {
   displayGetCRUD: displayGetCRUD,
   getEditCRUD: getEditCRUD,
   putCRUD: putCRUD,
+  deleteCRUD: deleteCRUD,
 };

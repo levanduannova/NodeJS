@@ -19,6 +19,7 @@
 </head>
 
 <body>
+    
     <table class="table table-striped">
         <thead>
             <tr>
@@ -49,7 +50,7 @@
                         <%= dataTable[i].phoneNumber %>
                     </td>
                     <td>
-                        <a href="" type="button" class="btn btn-danger btn-delete">Delete</a>
+                        <a href="./delete-crud?id=<%= dataTable[i].id %>" type="button" class="btn btn-danger btn-delete">Delete</a>
                         <a href="./edit-crud?id=<%= dataTable[i].id %>" type="button" class="btn btn-warning btn-edit">Edit</a>
                     </td>
                 </tr>
