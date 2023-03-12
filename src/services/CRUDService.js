@@ -97,7 +97,7 @@ let deleteUserData = (idUser) => {
       }
       resolve();
     } catch (error) {
-      reject(e);
+      reject(error);
     }
   });
 };
