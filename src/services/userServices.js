@@ -99,24 +99,27 @@ let createNewUser = (data) => {
           message: "Trung email",
         });
       }
-      let hashPassword = await hashUserPassword(data.password);
-      await db.User.create({
-        email: data.email,
-        password: hashPassword,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        address: data.address,
-        phoneNumber: data.phoneNumber,
-        gender: data.gender === "1" ? true : false,
-        // image: DataTypes.STRING,
-        roleId: data.roleId,
-        // positionId: DataTypes.STRING,
-      });
-      resolve({
-        errCode: 0,
-        message: "OK",
-        data,
-      });
+      else {
+        let hashPassword = await hashUserPassword(data.password);
+        await db.User.create({
+          email: data.email,
+          password: hashPassword,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          address: data.address,
+          phoneNumber: data.phoneNumber,
+          gender: data.gender === "1" ? true : false,
+          // image: DataTypes.STRING,
+          roleId: data.roleId,
+          // positionId: DataTypes.STRING,
+        });
+        resolve({
+          errCode: 0,
+          message: "OK",
+          data,
+        });
+      }
+
     } catch (error) {
       reject(error);
     }
