@@ -52,14 +52,29 @@ let handleDeleteUser = async (req, res) => {
   }
 };
 let handleEditUser = async (req, res) => {
-    let data = req.body;
-    let message = await userService.updateUserData(data);
-    return res.status(200).json(message);
+  let data = req.body;
+  let message = await userService.updateUserData(data);
+  return res.status(200).json(message);
 };
+
+
+let getAllCode = async (req, res) => {
+  try {
+    let data = await userService.getAllCodeService(req.query.type);
+    res.status(200).json(data)
+  } catch (error) {
+    console.log("Get allcode error")
+    return res.status(200).json({
+      errCode: -1,
+      errMessage: "ERR SERER"
+    });
+  }
+}
 module.exports = {
   handleLogin: handleLogin,
   handleGetAllUsers: handleGetAllUsers,
   handleCreateUser: handleCreateUser,
   handleDeleteUser: handleDeleteUser,
   handleEditUser: handleEditUser,
+  getAllCode: getAllCode,
 };

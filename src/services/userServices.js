@@ -1,5 +1,7 @@
+import { where } from "sequelize";
 import db from "../models/index";
 import bcrypt from "bcryptjs";
+import { raw } from "body-parser";
 const salt = bcrypt.genSaltSync(10);
 
 let handleUserLogin = (email, password) => {
@@ -197,10 +199,37 @@ let updateUserData = (data) => {
     }
   });
 };
+
+let getAllCodeService = (typeInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (typeInput) {
+        let res = {}
+        let allcode = await db.Allcode.findAll(
+          { where: { type: typeInput }, raw: true }
+
+        );
+        res.errCode = 0;
+        res.data = allcode;
+        resolve(res)
+      }
+      else {
+        resolve({
+          errCode: 4,
+          errmessage: "Khong co type"
+        })
+      }
+
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
 module.exports = {
   handleUserLogin: handleUserLogin,
   getAllUser: getAllUser,
   createNewUser: createNewUser,
   deleteUserData: deleteUserData,
   updateUserData: updateUserData,
+  getAllCodeService: getAllCodeService,
 };
